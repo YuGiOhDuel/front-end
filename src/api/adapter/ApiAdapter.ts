@@ -1,8 +1,5 @@
-import { Headers } from "../types/Headers";
-import { RequestError } from "../types/RequestError";
-
 export interface ApiAdapterInterface {
-
+    fetch<T>(uri: string, headers?: RequestInit): Promise<T>
 }
 
 export class ApiAdapter implements ApiAdapterInterface {
@@ -11,11 +8,11 @@ export class ApiAdapter implements ApiAdapterInterface {
         this.url = "http://localhost:4004";
     }
 
-    public async get<T>(uri: string, headers: Headers = {  }): Promise<T> {
+    public async fetch<T>(uri: string, init: RequestInit = {  }): Promise<T> {
         const req = await Promise.resolve(
             fetch(
                 `${this.url}${uri}`,
-                { headers: headers }
+                init
             )
         );
         if (!req.ok) {
